@@ -5,12 +5,11 @@ using System.Web;
 
 namespace EdTechProject.Models
 {
-    public class LessonPlan
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int FileId { get; set; }
-        public string Description { get; set; }
-
+        public int TypeId { get; set; }
+        public bool Archived { get; set; }
     }
 }
