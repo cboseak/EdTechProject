@@ -1,44 +1,188 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<html>
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hoot Education | Dashboard</title>
 
+    <!-- ANGULAR JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.js"></script>
+
+
+    <!-- Vendor CSS -->
+    <link href="~/Content/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="~/Content/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="~/Content/app.css">
+    <link href="~/Content/css/app_1.css" rel="stylesheet">
+    <link href="~/Content/css/app_2.css" rel="stylesheet">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <header id="header" class="clearfix" data-ma-theme="blue">
+        <ul class="h-inner">
+            <li class="hi-trigger ma-trigger" data-ma-action="sidebar-open" data-ma-target="#sidebar">
+                <div class="line-wrap">
+                    <div class="line top"></div>
+                    <div class="line center"></div>
+                    <div class="line bottom"></div>
+                </div>
+            </li>
+
+            <li class="hi-logo hidden-xs header-list">
+                <img class="logo" src="http://www.comm.gatech.edu/sites/default/files/images/brand-graphics/gt-logo-gold.png"> <a>EdTech Project - Chris Boseak</a>
+            </li>
+
+            <li class="pull-right">
+                <ul class="hi-menu">
+
+                    @*<li data-ma-action="search-open">
+                        <a href=""><i class="him-icon zmdi zmdi-search"></i></a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" href="" aria-expanded="false">
+                            <i class="him-icon zmdi zmdi-email"></i>
+                            <i class="him-counts">6</i>
+                        </a>
+
+                    </li>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" href="" aria-expanded="false">
+                            <i class="him-icon zmdi zmdi-notifications"></i>
+                            <i class="him-counts">9</i>
+                        </a>
+
+                    </li>*@
+
                 </ul>
-                @Html.Partial("_LoginPartial")
+            </li>
+        </ul>
+
+        <!-- Top Search Content -->
+        <div class="h-search-wrap">
+            <div class="hsw-inner">
+                <i class="hsw-close zmdi zmdi-arrow-left" data-ma-action="search-close"></i>
+                <input type="text">
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </header>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <section id="main">
+        <aside id="sidebar" class="sidebar c-overflow">
+            <div class="s-profile">
+                <a href="" data-ma-action="profile-menu-toggle">
+                    <div class="sp-pic">
+                        <img src="https://e27.co/img/no_profile_image.png" alt="">
+                    </div>
+
+                    <div class="sp-info">
+                        Hoot Apprentice
+
+                        <i class="zmdi zmdi-caret-down"></i>
+                    </div>
+                </a>
+
+                <ul class="main-menu">
+                    <li>
+                        <a href="#"><i class="zmdi zmdi-email"></i> Message Center</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="zmdi zmdi-accounts-alt"></i> Observe Me</a>
+                    </li>
+                    <li>
+                        <a href=#""><i class="zmdi zmdi-face"></i> Face-to-Face</a>
+                    </li>
+                    <li>
+                        <a href=#""><i class="zmdi zmdi-chart-donut"></i> Observation Data</a>
+                    </li>
+                    <li>
+                        <a href=#""><i class="zmdi zmdi-time-restore"></i> My Teammates</a>
+                    </li>
+                    <li>
+                        <a href=#""><i class="zmdi zmdi-settings"></i> My Profile</a>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="main-menu">
+                <li class="active"><a href="index.html"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
+  
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-chart"></i> My Data</a>
+                    <ul>
+                        <li><a href="#">Progress Monitoring</a></li>
+                        <li><a href="#">Student Portfolio</a></li>
+                        <li><a href="#">Observation Data</a></li>
+                        <li><a href="#">My Portfolio</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-account"></i> Let's Meet</a>
+                    <ul>
+                        <li><a href="#">Classroom Observations</a></li>
+                        <li><a href="#">Face To Face</a></li>
+                        <li><a href="studygroups.html">Study Group</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-accounts-alt"></i> My Team</a>
+                    <ul>
+                        <li><a href="#">My Teammates</a></li>
+                        <li><a href="#">My Profile</a></li>
+                        <li><a href="#">Message Center</a></li>
+                        <li><a href="#">Discussions</a></li>
+                        <li><a href="#">Victories</a></li>
+                        <li><a href="#">Obstacles</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-library"></i> Library</a>
+                    <ul>
+                        <li><a href="#">Team Resources</a></li>
+                        <li><a href="#">External Resources</a></li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="" data-ma-action="submenu-toggle"><i class="zmdi zmdi-help"></i> Help</a>
+                    <ul>
+                        <li><a href="#">Faq</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Contacts</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </aside>
+
+
+    </section>
+    @RenderBody()
+    <footer id="footer">
+
+
+        <ul class="f-menu">
+            <li><a href="">Home</a></li>
+            <li><a href="">Dashboard</a></li>
+            <li><a href="">Support</a></li>
+            <li><a href="">Contact</a></li>
+        </ul>
+    </footer>
+
+    <!-- Javascript Libraries -->
+    <script src="~/Content/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="~/Content/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script src="~/Content/js/app.min.js"></script>
 </body>
 </html>
