@@ -1,10 +1,10 @@
-﻿<html>
+﻿<html ng-app="edtechApp">
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hoot Education | Dashboard</title>
+    <title>EdTech Project | Chris Boseak</title>
 
     <!-- ANGULAR JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
@@ -21,13 +21,13 @@
     <link href="~/Content/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="~/Content/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
     <link href="~/Content/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/blaze-css@x.x.x/dist/blaze.min.css">
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="~/Content/app.css">
     <link href="~/Content/css/app_1.css" rel="stylesheet">
     <link href="~/Content/css/app_2.css" rel="stylesheet">
 </head>
-<body>
+<body ng-controller="edtechMainCtrl">
     <header id="header" class="clearfix" data-ma-theme="blue">
         <ul class="h-inner">
             <li class="hi-trigger ma-trigger" data-ma-action="sidebar-open" data-ma-target="#sidebar">
@@ -45,24 +45,7 @@
             <li class="pull-right">
                 <ul class="hi-menu">
 
-                    @*<li data-ma-action="search-open">
-                        <a href=""><i class="him-icon zmdi zmdi-search"></i></a>
-                    </li>
 
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" href="" aria-expanded="false">
-                            <i class="him-icon zmdi zmdi-email"></i>
-                            <i class="him-counts">6</i>
-                        </a>
-
-                    </li>
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" href="" aria-expanded="false">
-                            <i class="him-icon zmdi zmdi-notifications"></i>
-                            <i class="him-counts">9</i>
-                        </a>
-
-                    </li>*@
 
                 </ul>
             </li>
@@ -86,7 +69,7 @@
                     </div>
 
                     <div class="sp-info">
-                        Hoot Apprentice
+                        [NAME HERE]
 
                         <i class="zmdi zmdi-caret-down"></i>
                     </div>
@@ -163,10 +146,11 @@
 
             </ul>
         </aside>
-
-
+        <section id="content">
+            @RenderBody()
+        </section>
     </section>
-    @RenderBody()
+    
     <footer id="footer">
 
 
@@ -184,5 +168,39 @@
     <script src="~/Content/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 
     <script src="~/Content/js/app.min.js"></script>
+    <script>
+        var app = angular.module('edtechApp', []);
+        app.controller("edtechMainCtrl", function ($scope) {
+
+        });
+        app.controller("uploadCtrl", function ($scope) {
+            $scope.test = "asdfasdf";
+        });
+        app.controller("inboxCtrl", function ($scope) {
+            $scope.test = "asdfasdf";
+        });
+        app.controller("videoCtrl", function ($scope) {
+            $scope.scaledOptions = [1, 2, 3, 4, 5];
+            $scope.yesNoOptions = [
+                { text: "n/a", value: 0 },
+                { text: "Room for Improvement", value: 1 },
+                { text: "Ready for Classroom Use", value: 2 },
+            ];
+            $scope.scaledRatings = [
+                { text: "Responsive to student questions", rating: null },
+                { text: "Lesson Pacing", rating: null },
+                { text: "Coverage of Material", rating: null }
+            ];
+            $scope.yesNoRatings = [
+                
+                { text: "Attentiveness", rating: null },
+                { text: "Knowledgable", rating: null },
+                { text: "Gives students feedback", rating: null },
+                { text: "lorem ipsum", rating: null }
+                
+            ]
+        });
+        
+    </script>
 </body>
 </html>

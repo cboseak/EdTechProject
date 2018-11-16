@@ -3,5 +3,43 @@
     ViewBag.Title = "Upload";
 }
 
-<h2>Upload</h2>
+<div ng-controller="uploadCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-body card-padding">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4>File Upload</h4>
+                        </div>
+                        <div ng-form="edtechform" class="col-sm-6">
+
+                            <div class="o-form-element">
+                                <label class="c-label" for="Mentor">Mentor* <span style="color: red;" ng-show="edtechform.addmentor.$touched && edtechform.addmentor.$invalid">Required</span></label>
+                                <select id="Mentor" name="addmentor" ng-model="new.stateId" class="c-field" required>
+                                    <option ng-value="p.mentorId" ng-repeat="p in mentors track by $index">{{p.name}}</option>
+                                </select>
+                            </div>
+                            <div class="o-form-element">
+                                <label class="c-label" for="filename">Filename* <span style="color: red;" ng-show="edtechform.filename.$touched && edtechform.filename.$invalid">Required</span></label>
+                                <input id="name" name="filename" ng-model="new.filename" placeholder="File Name" class="c-field" required>
+                            </div>
+                            <div class="o-form-element">
+                                <label class="c-label" for="file">Select File* <span style="color: red;" ng-show="edtechform.file.$touched && edtechform.file.$invalid">Required</span></label>
+                                <input id="file" type="file" name="file" ng-model="new.file" class="c-field" required>
+                            </div>
+                            <div class="o-form-element">
+                                <button type="button" ng-click="cancel(new)" class="c-button">Cancel</button>
+                                <button type="button" ng-click="save(new)" ng-disabled="edtechform.$invalid" class="c-button c-button--warning">Save</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 

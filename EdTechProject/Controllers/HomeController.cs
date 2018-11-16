@@ -21,6 +21,14 @@ namespace EdTechProject.Controllers
         {
             return View();
         }
+        public ActionResult Video()
+        {
+            return View();
+        }
+        public ActionResult NewMessage()
+        {
+            return View();
+        }
         public ActionResult Compose()
         {
             return View();

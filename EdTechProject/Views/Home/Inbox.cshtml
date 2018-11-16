@@ -1,7 +1,90 @@
 ﻿
 @{
-    ViewBag.Title = "Inbox";
+    ViewData["Title"] = "Message Center";
+
 }
+<style>
+    .message-center .nav-tabs > li.active > a {
+        color: white;
+        background-color: #00a797;
+    }
 
-<h2>Inbox</h2>
+    .message-center .nav-tabs > li > a {
+        color: #009688;
+        background-color: #eaeaea;
+    }
 
+    .message-center .panel-default > .panel-heading {
+        color: #ffffff;
+        background-color: #009688;
+        border-color: #ddd;
+    }
+
+    .top-action-buttons-tab {
+        float: right;
+        padding-top: 17px;
+        margin-right: 15px;
+    }
+</style>
+<div ng-controller="inboxCtrl" class="message-center crud-page">
+    <div class="w3-animate-opacity">
+        <div class="block-header header-extra-margin">
+            <h2 class="edtech-page-header">Inbox</h2>
+
+            <ul class="actions">
+                <li class="tab-buttons">
+
+                </li>
+            </ul>
+
+        </div>
+
+        <span class="w3-animate-opacity top-action-buttons-tab" aria-label="send a new message button" role="button">
+
+            <a href="@Url.Action("NewMessage","home")">New Message <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+        </span>
+        <table class="table table-hover table-condensed forum-post-table" style="border-spacing: 0;">
+            <thead>
+                <tr class=" inbox-header">
+                    <th class="forum-header hidden-xs "><input aria-label="checkbox to select all items" type="checkbox" ng-model="selectAllInboxCheck" ng-change="selDeselAllInbox(mail)" /><span ng-show="1==2">select all mail items</span></th>
+
+                    <th colspan="2" class="forum-header">From</th>
+
+                    <th class="forum-header">Subject</th>
+                    <th class="forum-header hidden-xs ">Date</th>
+
+                </tr>
+            </thead>
+            <tbody class="w3-animate-opacity">
+                <tr class=" inbox-item {{unreadCheck(m.receiverStatus)}} " ng-repeat="m in  inboxFiltered = (mail | filter:{subject: subFilter} | orderBy: 'createdDate':true  |  startFrom: ((i.currentPage-1)*i.itemsPerPage) | limitTo: i.itemsPerPage) track by m.messageId ">
+                    <td class="hidden-xs mail-checkbox"><input aria-label="select this mail item" ng-model="m.checked" type="checkbox" /></td>
+                    <td ng-click="navigateToMessage(m.messageId)" class="forum-user-image-cell">
+                        <div role="img" alt="profile picture for {{m.sender.firstName}} {{m.sender.lastName}}" style="background: url({{m.sender.avatarUrl}})" class="inbox-avatar-holder">
+                        </div>
+                    </td>
+                    <td class="forum-small-sub"><a ng-href="/profile/{{m.sender.userId}}">{{m.sender.firstName}} {{m.sender.lastName}}</a></td>
+                    <td ng-click="navigateToMessage(m.messageId)" class="forum-small-sub forum-subject"><a ng-href="/message/{{m.messageId}}">{{m.subject}}</a></td>
+                    <td ng-click="navigateToMessage(m.messageId)" class="hidden-xs forum-small-sub forum-date">{{readableDate(m.createdDate)}}</td>
+
+                </tr>
+                <tr ng-if="mail.length <= 0">
+                    <td class="forum-small-sub" colspan="100%">Inbox is Empty</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+
+
+
+
+    </div>
+  
+</div>
+
+<script>
+
+
+</script>

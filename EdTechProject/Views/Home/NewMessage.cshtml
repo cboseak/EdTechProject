@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "New Message";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.js"></script>
+<div ng-controller="newMessageCtrl" class="new-message crud-page">
+    <div class="block-header">
+        <h2 class="edtech-page-header">Message Center</h2>
+
+    </div>
+    <div class="new-message">
+        <div class="row">
+            <div class=" col-sm-12">
+                <div class="card front-page-card">
+                    <div class="card-header  bgm-bluegray news-header">
+                        <div class="cwh-day">New Message</div>
+                        <div class="cwh-year"></div>
+                        <div class="cwh-year"></div>
+                    </div>
+
+                    <div class="card-body announcement-card-body card-padding message-body">
+                        <div class="card-modal w3-animate-opacity">
+
+                            <div class="modal-body reply-message">
+                                <div class="form-style-2">
+                                    <label>
+                                        <span>Recipient </span> <select class="full-width" aria-label="add group member selector" ng-options='(m.firstName + " " + m.lastName) for m in teamMembers' ng-model="message.receiver"></select>
+                                    </label>
+
+
+                                    <label><span>Subject </span><input ng-model="message.subject" type="text" class="input-field full-width" name="field1" value="" /></label>
+                                    <label><span>Message </span><textarea rows="20" cols="50" ng-model="message.content" type="textarea" class="input-field full-width" name="field2" value=""></textarea></label>
+
+                                    <div class="o-form-element">
+                                        <button type="button" ng-click="cancelMessage()" class="c-button">Cancel</button>
+                                        <button type="button" ng-click="sendMessage(message)" class="c-button c-button--warning">Send</button>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    app.controller('newMessageCtrl',
+        function ($scope) {
+            $scope.teamMembers = [];
+            $scope.loadTeamMembers = function (e) {
+                //load team members for to dropdown
+            }
+            $scope.message = {
+                subject: "",
+                content: "",
+                receiver: {}
+            };
+
+
+            $scope.sendMessage = function (msg) {
+                if (!msg.receiver.userId) { Notification.error("Please select a recipient"); return; }
+
+                //save message here
+            }
+            $scope.readableDate = function (date) {
+                return moment(date).format('dddd, MMMM Do YYYY, h:mm a');
+            }
+            $scope.cancelMessage = function () {
+
+                $scope.message = {
+                    subject: "",
+                    content: "",
+                    receiver: {}
+                }
+
+            }
+
+        });
+</script>

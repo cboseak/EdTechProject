@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Video";
+}
+
+<div ng-controller="videoCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-body card-padding">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4>Lesson Plan</h4>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <video controls>
+                                <source src="movie.mp4" type="video/mp4">
+                                <source src="movie.ogg" type="video/ogg">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4>Ratings</h4>
+                        </div>
+
+                    </div>
+                    <div class="row" ng-repeat="p in scaledRatings track by $index  ">
+                        <div class="col-xs-4">
+                            <span>{{p.text}}</span>
+                        </div>
+                        <div class="col-xs-8">
+                            <select class="c-field" ng-model="p.rating" >
+                            <option ng-value="c" ng-repeat="c in scaledOptions track by $index">{{c}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row" ng-repeat="p in yesNoRatings track by $index  ">
+                        <div class="col-xs-4">
+                            <span>{{p.text}}</span>
+                        </div>
+                        <div class="col-xs-8">
+                            <select class="c-field" ng-model="p.rating">
+                                <option ng-value="c.value" ng-repeat="c in yesNoOptions track by $index">{{c.text}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
