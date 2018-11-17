@@ -3,5 +3,80 @@
     ViewBag.Title = "Message";
 }
 
-<h2>Message</h2>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.js"></script>
+<div ng-controller="messageCtrl" class="new-message crud-page">
+    <div class="block-header">
+        <h2 class="edtech-page-header">Message Center</h2>
 
+    </div>
+    <div class="new-message">
+        <div class="row">
+            <div class=" col-sm-12">
+                <div class="card front-page-card">
+                    <div class="card-header  bgm-bluegray news-header">
+                        <div class="cwh-day">Message</div>
+                        <div class="cwh-year"></div>
+                        <div class="cwh-year"></div>
+                    </div>
+
+                    <div class="card-body announcement-card-body card-padding message-body">
+                        <div class="card-modal w3-animate-opacity">
+                            
+                            <div class="modal-body reply-message">
+                                <div class="form-style-2">
+                                    <div>
+                                        <strong >From: </strong> <span class="full-width">{{message.senderFirstName}} {{message.senderLastName}}</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <strong>To: </strong> <span class="full-width">{{message.toFirstName}} {{message.toLastName}}</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <strong>From: </strong> <span class="full-width">{{message.createdOn}}</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <strong>Subject: </strong> <span class="full-width">{{message.subject}}</span>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <strong>Message: </strong> <br /><br /><span class="full-width">{{message.body}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    app.controller('messageCtrl',
+        function ($scope,$http) {
+
+            $scope.message = {
+            };
+
+
+            $scope.getMessage = function (id) {
+
+                $http.get('/access/MessageByMessageId?messageId=' + id).then(function (res) {
+                    var ret = JSON.parse(res.data);
+                    if(ret.length > 0)
+                        $scope.message = ret[0];
+                }, function (res) {
+                    console.log(res);
+                    });
+
+            }
+
+
+            $scope.getMessage(@ViewBag.id);
+
+        });
+</script>

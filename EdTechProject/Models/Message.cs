@@ -12,6 +12,6 @@ namespace EdTechProject.Models
         public int ToUserId { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public bool Archived { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }
