@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "Task";
+}
+
+<div ng-controller="taskCtrl">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-body card-padding">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4 ng-if="task.type">{{task.type == 1 ? "Lesson Plan Review" : "Video Review"}}</h4>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div style="text-align:center;" class="col-xs-12">
+                            <video width="450" ng-if="task.type == 2" controls>
+                                <source ng-src="/access/download?fileid={{task.fileId}}" type="video/mp4">
+                                <source ng-src="/access/download?fileid={{task.fileId}}" type="video/ogg">
+                                Your browser does not support the video tag.
+                            </video>
+                            <span ng-if="task.type == 1" style="cursor:pointer;" ng-click="downloadFile(task.fileId)"><strong>Click to Download </strong>{{task.fileName}}</span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4>Ratings</h4>
+                        </div>
+
+                    </div>
+                    <div class="row" ng-repeat="p in scaledRatings track by $index  ">
+                        <div class="col-xs-4">
+                            <span>{{p.text}}</span>
+                        </div>
+                        <div class="col-xs-8">
+                            <select class="c-field" ng-model="p.rating">
+                                <option ng-value="c" ng-repeat="c in scaledOptions track by $index">{{c}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row" ng-repeat="p in yesNoRatings track by $index  ">
+                        <div class="col-xs-4">
+                            <span>{{p.text}}</span>
+                        </div>
+                        <div class="col-xs-8">
+                            <select class="c-field" ng-model="p.rating">
+                                <option ng-value="c.value" ng-repeat="c in yesNoOptions track by $index">{{c.text}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="o-form-element">
+                        <button type="button" ng-click="cancel()" class="c-button">Cancel</button>
+                        <button type="button" ng-click="submit()" class="c-button c-button--warning">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    app.controller('taskCtrl',
+        function ($scope,$http) {
+
+            $scope.task = {
+            };
+
+            $scope.scaledOptions = [1, 2, 3, 4, 5];
+            $scope.yesNoOptions = [
+                { text: "n/a", value: 0 },
+                { text: "Room for Improvement", value: 1 },
+                { text: "Ready for Classroom Use", value: 2 },
+            ];
+            $scope.scaledRatings = [
+                { text: "Responsive to student questions", rating: null },
+                { text: "Lesson Pacing", rating: null },
+                { text: "Coverage of Material", rating: null }
+            ];
+            $scope.yesNoRatings = [
+
+                { text: "Attentiveness", rating: null },
+                { text: "Knowledgable", rating: null },
+                { text: "Gives students feedback", rating: null },
+                { text: "lorem ipsum", rating: null }
+
+            ]
+            $scope.downloadFile = function (id) {
+                window.location.href = "/access/download?fileid=" + id;
+
+            }
+            $scope.getTask = function (id) {
+
+                $http.get('/access/GetTasksByTaskId?taskId=' + id).then(function (res) {
+                    var ret = JSON.parse(res.data);
+                    if(ret.length > 0)
+                        $scope.task = ret[0];
+                }, function (res) {
+                    console.log(res);
+                    });
+
+            }
+            $scope.cancel = function () {
+
+            }
+            $scope.submit = function () {
+
+            }
+            $scope.getTask(@ViewBag.id);
+
+        });
+</script>

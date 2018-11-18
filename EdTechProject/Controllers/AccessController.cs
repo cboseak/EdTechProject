@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -74,18 +75,7 @@ where ID <> {myUserId}";
             var query = $@"insert into [dbo].[EdTechMessage] values ({fromUserId},{toUserId},'{subject}','{body}','{createdOn}')";
             return Json(WriteToDb(query), JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetTasksByFromUserId(int userId)
-        {
-            var query = $@"SELECT [ID]
-              ,[FromUserId]
-              ,[ToUserId]
-              ,[Name]
-              ,[FileId]
-          FROM [DB_9FEBFD_cboseak].[dbo].[EdTechTasks]
-            Where FromUserId = '{userId}'";
 
-            return DataTableToJson(ReadFromDataBase(query));
-        }
 
         public ActionResult MarkTaskAsCompleted(int taskId) {
             var query = $@"update [DB_9FEBFD_cboseak].[dbo].[EdTechTasks]  set Completed = 0 where ID = {taskId}";
@@ -108,6 +98,50 @@ where ID <> {myUserId}";
 
             return DataTableToJson(ReadFromDataBase(query));
         }
+
+        public ActionResult DownloadFile(int fileId)
+        {
+            var query = $@" select FileData from [DB_9FEBFD_cboseak].[dbo].[EdTechFile] where ID = {fileId}";
+
+            return DataTableToJson(ReadFromDataBase(query));
+        }
+
+  
+
+        public FileResult Download(int fileId)
+        {
+            var query = $@" select FileData, FileName from [DB_9FEBFD_cboseak].[dbo].[EdTechFile] where ID = {fileId}";
+            var dt = ReadFromDataBase(query);
+            if(dt.Rows.Count > 0)
+            {
+                var base64 = dt.Rows[0]["FileData"].ToString();
+                var fileName = dt.Rows[0]["FileName"].ToString(); ;
+                byte[] byteArray = Convert.FromBase64String(base64);
+                return File(byteArray, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+
+            return File(new byte[0], System.Net.Mime.MediaTypeNames.Application.Octet, "error");
+
+        }
+        public ActionResult GetTasksByTaskId(int taskId)
+        {
+            var query = $@"SELECT a.[ID]
+      ,a.[FromUserId]
+      ,a.[ToUserId]
+      ,a.[Name]
+      ,a.[FileId]
+	  ,b.FirstName as senderFirstName
+	  ,b.LastName as senderLastName
+	  ,c.FileName
+	  ,c.Type
+  FROM [DB_9FEBFD_cboseak].[dbo].[EdTechTasks] a
+  inner join Users b on a.FromUserId = b.ID
+  inner join EdTechFile c on a.FileId = c.ID
+  where a.ID = {taskId}";
+
+            return DataTableToJson(ReadFromDataBase(query));
+        }
+
         public ActionResult GetUserInformationByUserId(int userId)
         {
             var query = $@"SELECT [ID]
@@ -186,15 +220,24 @@ where ID = {userId}";
             return Json(WriteToDb(query), JsonRequestBehavior.AllowGet);
         }
 
+
+
         [HttpPost]
-        public ActionResult SaveFile(string name, string base64, int type)
+        public ActionResult Upload(HttpPostedFileBase file, string name, int type)
         {
+            var base64 = "";
+            using (BinaryReader theReader = new BinaryReader(file.InputStream))
+            {
+                 base64 = Convert.ToBase64String(theReader.ReadBytes(file.ContentLength));
+
+            }
+
             var query = $@"insert into [dbo].[EdTechFile] values ('{base64}','{name}',0,{type});  SELECT max(ID) FROM [DB_9FEBFD_cboseak].[dbo].[EdTechFile];";
             return Json(WriteToDbGetBackId(query));
         }
         public ActionResult AddTask(int fromUserId, int toUserId,string name, int fileId)
         {
-            var query = $@" insert into [DB_9FEBFD_cboseak].[dbo].[EdTechTasks] values ({fromUserId},{toUserId},'{name}',{fileId})";
+            var query = $@" insert into [DB_9FEBFD_cboseak].[dbo].[EdTechTasks] values ({fromUserId},{toUserId},'{name}',{fileId},0)";
             return Json(WriteToDb(query), JsonRequestBehavior.AllowGet);
         }
 

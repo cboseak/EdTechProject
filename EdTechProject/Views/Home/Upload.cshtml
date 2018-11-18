@@ -33,7 +33,7 @@
                             </div>
                             <div class="o-form-element">
                                 <button type="button" ng-click="cancel()" class="c-button">Cancel</button>
-                                <button type="button" ng-click="save()" class="c-button c-button--warning">Save</button>
+                                <button type="button" ng-click="savePost()" class="c-button c-button--warning">Save</button>
                             </div>
 
                         </div>
@@ -61,6 +61,21 @@
         $scope.types = [{ value: 1, text: "Lesson Plan" }, { value: 2, text: "video" }]
         $scope.type = 1;
         $scope.toUserId = -1;
+        $scope.savePost = function () {
+
+            var fileData = document.getElementById("file").files[0];
+            var fd = new FormData();
+            fd.append('file', fileData);
+            fd.append('name', $scope.fileData.filename);
+            fd.append('type', $scope.type);
+            $http.post('/access/upload', fd, {
+                headers: { 'Content-Type': undefined },
+                transformRequest: angular.identity
+            }).then(function (res) {
+                $http.get('/access/AddTask?fromuserid=' + $scope.fromUserId + '&touserid=' + $scope.toUserId + '&name=Review Needed - ' + $scope.fileData.filename + '&fileid=' + res.data)
+                    .then(function (r) { console.log(r); })
+            });
+        }
         $scope.save = function () {
             var data = {
                 name: $scope.fileData.filename,

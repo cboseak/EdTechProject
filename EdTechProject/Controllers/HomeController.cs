@@ -23,8 +23,17 @@ namespace EdTechProject.Controllers
         {
             return View();
         }
+        public ActionResult Task(int id)
+        {
+            if (id == null || id < 0)
+                return Content("A Task Id is Required");
+            ViewBag.id = id;
+            return View();
+        }
         public ActionResult Upload()
         {
+
+            
             return View();
         }
         public ActionResult Video(int id)
