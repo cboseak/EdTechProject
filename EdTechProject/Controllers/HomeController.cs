@@ -14,9 +14,13 @@ namespace EdTechProject.Controllers
             return View();
         }
 
-        public ActionResult Inbox(int id)
+        public ActionResult Inbox()
         {
-            ViewBag.id = id != null ? id : -1;
+            return View();
+        }
+
+        public ActionResult Tasks()
+        {
             return View();
         }
         public ActionResult Upload()
@@ -28,9 +32,8 @@ namespace EdTechProject.Controllers
             ViewBag.id = id != null ? id : -1;
             return View();
         }
-        public ActionResult NewMessage(int id)
+        public ActionResult NewMessage()
         {
-            ViewBag.id = id != null ? id : -1;
             return View();
         }
 

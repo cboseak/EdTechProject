@@ -54,7 +54,6 @@
     app.controller('newMessageCtrl',
         function ($scope,$http) {
             $scope.teamMembers = [];
-            $scope.id = @ViewBag.id;
             $scope.loadTeamMembers = function (id) {
                 $http.get('/access/GetOtherUsers?myUserid=' + id).then(function (res) {
                     $scope.teamMembers = JSON.parse(res.data);
@@ -72,7 +71,7 @@
             $scope.sendMessage = function (msg) {
                 if (!msg.toUserId) { Notification.error("Please select a recipient"); return; }
                 //int fromUserId, int toUserId, string subject, string body)
-                $http.get('/access/sendmessage?fromUserId=' + $scope.id + '&toUserId=' + msg.toUserId + '&subject=' + msg.subject + '&body=' + msg.content).then(function (res) {
+                $http.get('/access/sendmessage?fromUserId=' + $scope.$parent.userId + '&toUserId=' + msg.toUserId + '&subject=' + msg.subject + '&body=' + msg.content).then(function (res) {
                     $scope.clearMessage();
                     alert('message sent');
                 }, function (res) {
@@ -93,7 +92,7 @@
                     toUserId: -1
                 }
             }
-            $scope.loadTeamMembers($scope.id)
+            $scope.loadTeamMembers($scope.$parent.userId)
 
         });
 </script>

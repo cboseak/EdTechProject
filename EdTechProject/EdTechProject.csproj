@@ -2705,6 +2705,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Home\Video.cshtml" />
     <Content Include="Views\Home\NewMessage.cshtml" />
+    <Content Include="Views\Home\Tasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Tasks";
+}
+<style>
+    .message-center .nav-tabs > li.active > a {
+        color: white;
+        background-color: #00a797;
+    }
+
+    .message-center .nav-tabs > li > a {
+        color: #009688;
+        background-color: #eaeaea;
+    }
+
+    .message-center .panel-default > .panel-heading {
+        color: #ffffff;
+        background-color: #009688;
+        border-color: #ddd;
+    }
+
+    .top-action-buttons-tab {
+        float: right;
+        padding-top: 17px;
+        margin-right: 15px;
+    }
+</style>
+<div ng-controller="taskCtrl" class="message-center crud-page">
+    <div class="w3-animate-opacity">
+        <div class="block-header header-extra-margin">
+            <h2 class="edtech-page-header">User Tasks</h2>
+
+            <ul class="actions">
+                <li class="tab-buttons">
+
+                </li>
+            </ul>
+
+        </div>
+
+
+        <table class="table table-hover table-condensed forum-post-table" style="border-spacing: 0;">
+            <thead>
+                <tr class=" inbox-header">
+                    <th class="forum-header">Task Name</th>
+                    <th class="forum-header">User</th>
+                    <th class="forum-header ">Type</th>
+                    <th class="forum-header">Status</th>
+                </tr>
+            </thead>
+            <tbody class="w3-animate-opacity">
+                <tr class=" inbox-item " ng-repeat="m in tasks track by $index">
+                    <td class="forum-small-sub"><a ng-href="/home/task/{{m.id}}">{{m.name}}</a></td>
+                    <td class="forum-small-sub forum-subject"><a ng-href="/home/task/{{m.id}}">{{m.senderFirstName}} {{m.senderLastName}}</a></td>
+                    <td class="hidden-xs forum-small-sub forum-date">{{m.type == 1 ? "Lesson Plan" : "Video Review"}}</td>
+                    <td class="hidden-xs forum-small-sub forum-date" ng-style="m.completed == 1 ? {'color':'green'} : {'color':'red'}">{{m.completed == 1 ? "Completed" : "Not Completed"}}</td>
+
+                </tr>
+                <tr ng-if="tasks.length <= 0">
+                    <td class="forum-small-sub" colspan="100%">You Have no Tasks</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+<script>
+
+    app.controller('taskCtrl',
+        function ($scope, $http) {
+
+            $scope.tasks = [];
+
+
+
+
+            $scope.getAllTasks = function (id) {
+
+                $http.get('/access/GetTasksByToUserId?userid=' + id).then(function (res) {
+                    $scope.tasks = JSON.parse(res.data);
+                }, function (res) {
+                    console.log(res);
+                });
+            }
+            $scope.getAllTasks($scope.$parent.userId)
+
+
+
+
+        });
+
+</script>
+
+

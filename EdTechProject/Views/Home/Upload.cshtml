@@ -21,14 +21,19 @@
                                     <option ng-value="p.id" ng-repeat="p in mentors track by $index">{{p.firstName}} {{p.lastName}}</option>
                                 </select>
                             </div>
-
+                            <div class="o-form-element">
+                                <label class="c-label" for="type">Type* <span style="color: red;" ng-show="edtechform.addmentor.$touched && edtechform.addmentor.$invalid">Required</span></label>
+                                <select id="type" name="type" ng-model="type" class="c-field" required>
+                                    <option ng-value="p.value" ng-repeat="p in types track by $index">{{p.text}}</option>
+                                </select>
+                            </div>
                             <div class="o-form-element">
                                 <label class="c-label" for="file">Select File* <span style="color: red;" ng-show="edtechform.file.$touched && edtechform.file.$invalid">Required</span></label>
                                 <input id="file" type="file" name="file" ng-model="fileData" class="c-field" base-sixty-four-input required>
                             </div>
                             <div class="o-form-element">
                                 <button type="button" ng-click="cancel()" class="c-button">Cancel</button>
-                                <button type="button" ng-click="save()"  class="c-button c-button--warning">Save</button>
+                                <button type="button" ng-click="save()" class="c-button c-button--warning">Save</button>
                             </div>
 
                         </div>
@@ -44,8 +49,8 @@
 
     app.controller("uploadCtrl", function ($scope, $http) {
         $scope.mentors = [];
-        $scope.fromUserId = 1;
-
+        $scope.fromUserId = $scope.$parent.userId;
+       
         $scope.loadMentors = function (id) {
             $http.get('/access/GetOtherUsers?myUserid=' + id).then(function (res) {
                 $scope.mentors = JSON.parse(res.data);
@@ -53,11 +58,14 @@
                 console.log(res);
             });
         }
+        $scope.types = [{ value: 1, text: "Lesson Plan" }, { value: 2, text: "video" }]
+        $scope.type = 1;
         $scope.toUserId = -1;
         $scope.save = function () {
             var data = {
-                name: $scope.fileData.fileName,
-                base64: $scope.fileData.base64
+                name: $scope.fileData.filename,
+                base64: $scope.fileData.base64,
+                type: $scope.type
             }
             console.log($scope.fileData);
             $http.post('/access/SaveFile', data
@@ -66,7 +74,7 @@
                     .then(function (r) { console.log(r); })
             });
         }
-        $scope.loadMentors(-1);
+        $scope.loadMentors($scope.$parent.userId);
 
     });
 

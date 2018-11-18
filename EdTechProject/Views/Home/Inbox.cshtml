@@ -53,8 +53,8 @@
             </thead>
             <tbody class="w3-animate-opacity">
                 <tr class=" inbox-item " ng-repeat="m in mail track by $index">
-                    <td class="forum-small-sub"><a ng-href="home/message/{{m.id}}">{{m.senderLastName}} {{m.senderFirstName}}</a></td>
-                    <td  class="forum-small-sub forum-subject"><a ng-href="home/message/{{m.id}}">{{m.subject}}</a></td>
+                    <td class="forum-small-sub"><a ng-href="/home/message/{{m.id}}">{{m.senderFirstName}} {{m.senderLastName}}</a></td>
+                    <td  class="forum-small-sub forum-subject"><a ng-href="/home/message/{{m.id}}">{{m.subject}}</a></td>
                     <td class="hidden-xs forum-small-sub forum-date">{{m.createdOn}}</td>
 
                 </tr>
@@ -94,7 +94,7 @@
                     console.log(res);
                 });
             }
-            $scope.getAllMessages(@ViewBag.id)
+            $scope.getAllMessages($scope.$parent.userId)
 
 
          

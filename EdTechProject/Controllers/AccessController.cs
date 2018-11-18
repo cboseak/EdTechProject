@@ -10,21 +10,24 @@ using System.Web.Mvc;
 
 namespace EdTechProject.Controllers
 {
+
+    /*TODO clean up all the SQL injection issues in this controller*/
     public class AccessController : Controller
     {
 
         public ActionResult GetMessagesByToUserId(int userId)
         {
             var query = $@"SELECT  a.[ID]
-              ,[FromUserId]
-              ,[ToUserId]
-              ,[Subject]
-              ,[Body]
-              ,[CreatedOn]
-			  ,b.FirstName as senderFirstName
-			  ,b.LastName as senderLastName
-			  ,c.FirstName as toFirstName
-			  ,c.LastName as toLastName
+                ,[FromUserId]
+                ,[ToUserId]
+                ,[Subject]
+                ,[Body]
+                ,[CreatedOn]
+                ,b.FirstName as senderFirstName
+                ,b.LastName as senderLastName
+                ,c.FirstName as toFirstName
+                ,c.LastName as toLastName
+	            ,c.Type
             FROM [DB_9FEBFD_cboseak].[dbo].[EdTechMessage] a
 			inner join [Users] b on a.FromUserId = b.ID
 			inner join [Users] c on a.ToUserId = c.ID
@@ -64,6 +67,7 @@ where ID <> {myUserId}";
 
             return DataTableToJson(ReadFromDataBase(query));
         }
+  
         public ActionResult SendMessage(int fromUserId, int toUserId, string subject, string body)
         {
             var createdOn = DateTime.Now;
@@ -83,14 +87,37 @@ where ID <> {myUserId}";
             return DataTableToJson(ReadFromDataBase(query));
         }
 
-
+        public ActionResult MarkTaskAsCompleted(int taskId) {
+            var query = $@"update [DB_9FEBFD_cboseak].[dbo].[EdTechTasks]  set Completed = 0 where ID = {taskId}";
+            return Json(WriteToDb(query), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult GetTasksByToUserId(int userId)
         {
-            return View();
+            var query = $@"SELECT a.[ID]
+      ,a.[FromUserId]
+      ,a.[ToUserId]
+      ,a.[Name]
+      ,a.[FileId]
+	  ,b.FirstName as senderFirstName
+	  ,b.LastName as senderLastName
+	  ,c.FileName
+  FROM [DB_9FEBFD_cboseak].[dbo].[EdTechTasks] a
+  inner join Users b on a.FromUserId = b.ID
+  inner join EdTechFile c on a.FileId = c.ID
+  where ToUserId = {userId}";
+
+            return DataTableToJson(ReadFromDataBase(query));
         }
         public ActionResult GetUserInformationByUserId(int userId)
         {
-            return View();
+            var query = $@"SELECT [ID]
+      ,[LastName]
+      ,[FirstName]
+      ,[Type]
+  FROM [DB_9FEBFD_cboseak].[dbo].[Users]
+where ID = {userId}";
+
+            return DataTableToJson(ReadFromDataBase(query));
         }
         public ActionResult SaveTask(int feedbackId, int rating, string comments)
         {
@@ -160,14 +187,9 @@ where ID <> {myUserId}";
         }
 
         [HttpPost]
-        public ActionResult UploadFile()
+        public ActionResult SaveFile(string name, string base64, int type)
         {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult SaveFile(string name, string base64)
-        {
-            var query = $@"insert into [dbo].[EdTechFile] values ('{base64}','{name}',0);  SELECT max(ID) FROM [DB_9FEBFD_cboseak].[dbo].[EdTechFile];";
+            var query = $@"insert into [dbo].[EdTechFile] values ('{base64}','{name}',0,{type});  SELECT max(ID) FROM [DB_9FEBFD_cboseak].[dbo].[EdTechFile];";
             return Json(WriteToDbGetBackId(query));
         }
         public ActionResult AddTask(int fromUserId, int toUserId,string name, int fileId)
