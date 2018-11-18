@@ -2707,6 +2707,7 @@
     <Content Include="Views\Home\NewMessage.cshtml" />
     <Content Include="Views\Home\Tasks.cshtml" />
     <Content Include="Views\Home\Task.cshtml" />
+    <Content Include="Views\Home\Feedback.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

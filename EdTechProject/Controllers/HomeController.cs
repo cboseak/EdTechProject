@@ -23,6 +23,10 @@ namespace EdTechProject.Controllers
         {
             return View();
         }
+        public ActionResult Feedback()
+        {
+            return View();
+        }
         public ActionResult Task(int id)
         {
             if (id == null || id < 0)

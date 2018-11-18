@@ -69,7 +69,7 @@
 
 <script>
     app.controller('taskCtrl',
-        function ($scope,$http) {
+        function ($scope, $http, Notification) {
 
             $scope.task = {
             };
@@ -109,10 +109,13 @@
 
             }
             $scope.cancel = function () {
-
+              
             }
             $scope.submit = function () {
+                  $http.get('/access/MarkTaskAsCompleted?taskId=@ViewBag.id').then(function (res) {
 
+
+                });
             }
             $scope.getTask(@ViewBag.id);
 

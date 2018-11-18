@@ -78,7 +78,7 @@ where ID <> {myUserId}";
 
 
         public ActionResult MarkTaskAsCompleted(int taskId) {
-            var query = $@"update [DB_9FEBFD_cboseak].[dbo].[EdTechTasks]  set Completed = 0 where ID = {taskId}";
+            var query = $@"update [DB_9FEBFD_cboseak].[dbo].[EdTechTasks]  set Completed = 1 where ID = {taskId}";
             return Json(WriteToDb(query), JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetTasksByToUserId(int userId)
@@ -91,6 +91,8 @@ where ID <> {myUserId}";
 	  ,b.FirstName as senderFirstName
 	  ,b.LastName as senderLastName
 	  ,c.FileName
+,c.Type
+,a.Completed
   FROM [DB_9FEBFD_cboseak].[dbo].[EdTechTasks] a
   inner join Users b on a.FromUserId = b.ID
   inner join EdTechFile c on a.FileId = c.ID
@@ -98,7 +100,25 @@ where ID <> {myUserId}";
 
             return DataTableToJson(ReadFromDataBase(query));
         }
+        public ActionResult GetTasksByFromUserId(int userId)
+        {
+            var query = $@"SELECT a.[ID]
+      ,a.[FromUserId]
+      ,a.[ToUserId]
+      ,a.[Name]
+      ,a.[FileId]
+	  ,b.FirstName as senderFirstName
+	  ,b.LastName as senderLastName
+	  ,c.FileName
+,c.Type
+,a.Completed
+  FROM [DB_9FEBFD_cboseak].[dbo].[EdTechTasks] a
+  inner join Users b on a.ToUserId = b.ID
+  inner join EdTechFile c on a.FileId = c.ID
+  where a.FromUserId = {userId} and a.Completed = 1";
 
+            return DataTableToJson(ReadFromDataBase(query));
+        }
         public ActionResult DownloadFile(int fileId)
         {
             var query = $@" select FileData from [DB_9FEBFD_cboseak].[dbo].[EdTechFile] where ID = {fileId}";

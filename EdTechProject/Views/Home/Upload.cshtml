@@ -72,7 +72,7 @@
                 headers: { 'Content-Type': undefined },
                 transformRequest: angular.identity
             }).then(function (res) {
-                $http.get('/access/AddTask?fromuserid=' + $scope.fromUserId + '&touserid=' + $scope.toUserId + '&name=Review Needed - ' + $scope.fileData.filename + '&fileid=' + res.data)
+                $http.get('/access/AddTask?fromuserid=' + $scope.fromUserId + '&touserid=' + $scope.toUserId + '&name=Review - ' + $scope.fileData.filename + '&fileid=' + res.data)
                     .then(function (r) { console.log(r); })
             });
         }
